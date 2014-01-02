@@ -1,9 +1,8 @@
 package main
 
 import (
-	"fmt"
-	. "github.com/smartystreets/goconvey/convey"
 	"testing"
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 var stillLife = []string{
@@ -132,5 +131,3 @@ func TestGrid(t *testing.T) {
 		})
 	})
 }
-
-var _ = fmt.Sprintf("hi")

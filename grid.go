@@ -1,9 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
 type Grid struct {
 	relations map[*Cell][]*Cell
 	Cells     [][]*Cell
@@ -94,5 +90,3 @@ func (self point) isOnGrid(grid [][]*Cell) bool {
 		self.x < len(grid[0]) &&
 		self.y < len(grid)
 }
-
-var _ = fmt.Sprintf("hi")

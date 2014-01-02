@@ -50,5 +50,3 @@ func NewConsolePrinter(grid *Grid) *ConsolePrinter {
 	self.grid = grid
 	return self
 }
-
-var _ = fmt.Sprintf("hi")
