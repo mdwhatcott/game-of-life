@@ -104,28 +104,26 @@ var cases = [][]string{stillLife, oscillator, glider}
 
 func TestGrid(t *testing.T) {
 	var (
-		grid    *Grid
-		console *ConsolePrinter
+		grid *Grid
 	)
 
 	Convey("Given an initial seed", t, func() {
 		grid = NewGrid()
-		console = NewConsolePrinter(grid)
 
-		Convey("The console should be able to render the grid", func() {
+		Convey("The grid should be able to render", func() {
 			grid.Seed("---\nxxx\n---")
-			So(console.String(), ShouldEqual, "\n---\nxxx\n---\n")
+			So(grid.String(), ShouldEqual, "\n---\nxxx\n---\n")
 		})
 
 		Convey("Each time the board is updated the state should be correct", func() {
 			for _, example := range cases {
 				grid.Seed(example[0])
-				So(console.String(), ShouldEqual, example[0])
+				So(grid.String(), ShouldEqual, example[0])
 
 				for x := 1; x < len(example); x++ {
 					grid.Scan()
 
-					So(console.String(), ShouldEqual, example[x])
+					So(grid.String(), ShouldEqual, example[x])
 				}
 			}
 		})

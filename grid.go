@@ -1,13 +1,15 @@
 package main
 
+import "bytes"
+
 type Grid struct {
 	relations map[*Cell][]*Cell
-	Cells     [][]*Cell
+	cells     [][]*Cell
 }
 
 func (self *Grid) Seed(grid string) {
-	self.Cells = initialize(grid)
-	self.relations = formRelationships(self.Cells)
+	self.cells = initialize(grid)
+	self.relations = formRelationships(self.cells)
 }
 func initialize(grid string) [][]*Cell {
 	rows := [][]*Cell{}
@@ -75,8 +77,19 @@ func (self *Grid) Scan() {
 	}
 }
 
-func NewGrid() *Grid {
-	return new(Grid)
+func (self *Grid) String() string {
+	builder := bytes.NewBufferString("\n")
+	for _, row := range self.cells {
+		for _, cell := range row {
+			if cell.IsAlive() {
+				builder.WriteString("x")
+			} else {
+				builder.WriteString("-")
+			}
+		}
+		builder.WriteString("\n")
+	}
+	return builder.String()
 }
 
 type point struct {

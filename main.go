@@ -16,8 +16,8 @@ func main() {
 	static := filepath.Join(here, "/client")
 	http.Handle("/", http.FileServer(http.Dir(static)))
 
-	grid := NewGrid()
-	printer := NewHtmlPrinter(NewConsolePrinter(grid))
+	grid := new(Grid)
+	printer := NewHtmlStringer(grid)
 	grid.Seed(gliderGun)
 
 	http.HandleFunc("/state", func(w http.ResponseWriter, r *http.Request) {
