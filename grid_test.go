@@ -2,6 +2,7 @@ package main
 
 import (
 	"testing"
+
 	. "github.com/smartystreets/goconvey/convey"
 )
 
@@ -103,12 +104,10 @@ var glider = []string{
 var cases = [][]string{stillLife, oscillator, glider}
 
 func TestGrid(t *testing.T) {
-	var (
-		grid *Grid
-	)
+	var grid *Grid
 
 	Convey("Given an initial seed", t, func() {
-		grid = NewGrid()
+		grid = new(Grid)
 
 		Convey("The grid should be able to render", func() {
 			grid.Seed("---\nxxx\n---")

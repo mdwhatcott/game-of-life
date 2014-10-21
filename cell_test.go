@@ -1,14 +1,14 @@
 package main
 
 import (
-	. "github.com/smartystreets/goconvey/convey"
 	"testing"
+
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestCell(t *testing.T) {
-	var cell *Cell
-
 	Convey("Subject: Cell lives or dies based on state of surrounding cells", t, func() {
+		var cell *Cell
 
 		Convey("Given a live cell", func() {
 			cell = alive()
