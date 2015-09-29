@@ -1,4 +1,4 @@
-package main
+package life
 
 type Cell struct {
 	update func()
