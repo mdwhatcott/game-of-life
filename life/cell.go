@@ -5,6 +5,16 @@ type Cell struct {
 	alive  bool
 }
 
+func Dead() *Cell {
+	return new(Cell)
+}
+
+func Alive() *Cell {
+	cell := Dead()
+	cell.Activate()
+	return cell
+}
+
 func (self *Cell) IsAlive() bool {
 	return self.alive
 }

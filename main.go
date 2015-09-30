@@ -6,61 +6,52 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"path/filepath"
-	"runtime"
-	"strings"
 	"time"
 
 	"github.com/mdwhatcott/golife/life"
+	"github.com/mdwhatcott/golife/ui"
 	"github.com/smartystreets/configo"
 )
 
 func main() {
-	reader := configo.NewReader(
-		configo.FromCommandLineFlags().Register("cli", "If 'true', run the simulation in the command line."))
+	reader := configo.NewReader(configo.FromCommandLineFlags().
+		Register("console", "If 'true', run the simulation in the command line."))
 
-	grid := new(life.Grid)
-	grid.Seed(gliderGun)
+	grid := life.New(gliderGun)
 
-	if reader.Bool("cli") {
-		for {
-			fmt.Print("\033[2J\033[H" + grid.String())
-			grid.Scan()
-			time.Sleep(time.Millisecond * 25)
-		}
+	if reader.Bool("console") {
+		console(grid)
+	} else {
+		html(grid)
 	}
+}
 
-	_, file, _, _ := runtime.Caller(0)
-	here := filepath.Dir(file)
-	static := filepath.Join(here, "/client")
-	http.Handle("/", http.FileServer(http.Dir(static)))
+func console(grid *life.Grid) {
+	for {
+		fmt.Printf(clearScreenFormat, ui.Console(grid))
+		grid.Scan()
+		time.Sleep(time.Millisecond * 25)
+	}
+}
 
-	printer := NewHtmlStringer(grid)
-	http.HandleFunc("/state", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, printer.String())
+func html(grid *life.Grid) {
+	http.HandleFunc("/", func(response http.ResponseWriter, _ *http.Request) {
+		response.Header().Set("Content-Type", "text/html")
+		fmt.Fprint(response, UI)
+	})
+
+	http.HandleFunc("/state", func(response http.ResponseWriter, _ *http.Request) {
+		fmt.Fprint(response, ui.HTML(grid))
 		grid.Scan()
 	})
 
-	log.Fatal(http.ListenAndServe(":8081", nil))
+	fmt.Println("Serving http at: ':8081'")
+	if err := http.ListenAndServe(":8081", nil); err != nil {
+		log.Fatal(err)
+	}
 }
 
-type HtmlStringer struct {
-	inner fmt.Stringer
-}
-
-func (self *HtmlStringer) String() string {
-	raw := self.inner.String()
-	raw = strings.Replace(raw, "\n", "<br>", -1)
-	raw = strings.Replace(raw, "-", "&nbsp;", -1)
-	raw = strings.Replace(raw, "x", "•", -1)
-	return raw
-}
-
-func NewHtmlStringer(inner fmt.Stringer) *HtmlStringer {
-	self := new(HtmlStringer)
-	self.inner = inner
-	return self
-}
+const clearScreenFormat = "\033[2J\033[H%s"
 
 const gliderGun = `
 ------------------------x--------------------
@@ -95,4 +86,25 @@ xx--------x---x-xx----x-x--------------------
 ---------------------------------------------
 ---------------------------------------------
 ---------------------------------------------
+`
+
+const UI = `<html>
+<head>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script type="text/javascript">
+    jQuery(document).ready(function() {
+      setInterval(function() {
+        $.ajax("/state", {
+          success: function(data) {
+            $('body').css('font-family', 'monospace');
+            $('body').html(data);
+          }
+        });
+      }, 75)
+    });
+  </script>
+</head>
+<body>
+</body>
+</html>
 `

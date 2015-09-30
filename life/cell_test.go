@@ -8,10 +8,9 @@ import (
 
 func TestCell(t *testing.T) {
 	Convey("Subject: Cell lives or dies based on state of surrounding cells", t, func() {
-		var cell *Cell
 
 		Convey("Given a live cell", func() {
-			cell = alive()
+			cell := Alive()
 
 			Convey("with no live neighbors", func() {
 				cell.Scan(liveNeighbors(0))
@@ -96,7 +95,7 @@ func TestCell(t *testing.T) {
 		})
 
 		Convey("Given a dead cell", func() {
-			cell = dead()
+			cell := Dead()
 
 			Convey("with no live neighbors", func() {
 				cell.Scan(liveNeighbors(0))
@@ -182,26 +181,15 @@ func TestCell(t *testing.T) {
 	})
 }
 
-func alive() *Cell {
-	cell := new(Cell)
-	cell.Activate()
-	return cell
-}
-func dead() *Cell {
-	cell := new(Cell)
-	cell.Deactivate()
-	return cell
-}
-
 func liveNeighbors(live int) []*Cell {
 	activated := 0
 	cells := []*Cell{}
 	for x := 0; x < NEIGHBORS; x++ {
 		if activated < live {
-			cells = append(cells, alive())
+			cells = append(cells, Alive())
 			activated++
 		} else {
-			cells = append(cells, dead())
+			cells = append(cells, Dead())
 		}
 	}
 	return cells

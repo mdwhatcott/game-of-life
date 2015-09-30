@@ -7,9 +7,11 @@ type Grid struct {
 	cells     [][]*Cell
 }
 
-func (self *Grid) Seed(grid string) {
+func New(grid string) *Grid {
+	self := new(Grid)
 	self.cells = initialize(grid)
 	self.relations = formRelationships(self.cells)
+	return self
 }
 func initialize(grid string) [][]*Cell {
 	rows := [][]*Cell{}
