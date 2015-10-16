@@ -22,13 +22,9 @@ func initialize(grid string) [][]*Cell {
 			rows = append(rows, row)
 			row = []*Cell{}
 		} else if c == '-' {
-			cell := new(Cell)
-			cell.Kill()
-			row = append(row, cell)
+			row = append(row, Dead())
 		} else if c == 'x' {
-			cell := new(Cell)
-			cell.Revive()
-			row = append(row, cell)
+			row = append(row, Alive())
 		}
 	}
 	if len(row) > 0 {
