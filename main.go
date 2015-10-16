@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/mdwhatcott/golife/life"
+	life "github.com/mdwhatcott/golife/life"
 	"github.com/mdwhatcott/golife/ui"
 	"github.com/smartystreets/configo"
 )
@@ -97,7 +97,6 @@ const UI = `<html>
       setInterval(function() {
         $.ajax("/state", {
           success: function(data) {
-            $('body').css('font-family', 'monospace');
             $('body').html(data);
           }
         });
@@ -105,7 +104,7 @@ const UI = `<html>
     });
   </script>
 </head>
-<body>
+<body style="font-family: monospace;">
 </body>
 </html>
 `
