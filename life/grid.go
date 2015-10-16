@@ -23,11 +23,11 @@ func initialize(grid string) [][]*Cell {
 			row = []*Cell{}
 		} else if c == '-' {
 			cell := new(Cell)
-			cell.Deactivate()
+			cell.Kill()
 			row = append(row, cell)
 		} else if c == 'x' {
 			cell := new(Cell)
-			cell.Activate()
+			cell.Revive()
 			row = append(row, cell)
 		}
 	}

@@ -1,8 +1,8 @@
 package life
 
 type Cell struct {
-	update func()
-	alive  bool
+	updater func()
+	alive   bool
 }
 
 func Dead() *Cell {
@@ -11,7 +11,7 @@ func Dead() *Cell {
 
 func Alive() *Cell {
 	cell := Dead()
-	cell.Activate()
+	cell.Revive()
 	return cell
 }
 
@@ -19,11 +19,11 @@ func (self *Cell) IsAlive() bool {
 	return self.alive
 }
 
-func (self *Cell) Activate() {
+func (self *Cell) Revive() {
 	self.alive = true
 }
 
-func (self *Cell) Deactivate() {
+func (self *Cell) Kill() {
 	self.alive = false
 }
 
@@ -49,19 +49,19 @@ func (self *Cell) decideFate(alive int) {
 }
 func (self *Cell) handleLiving(alive int) {
 	if alive < 2 || alive > 3 {
-		self.update = self.Deactivate
+		self.updater = self.Kill
 	} else {
-		self.update = self.Activate
+		self.updater = self.Revive
 	}
 }
 func (self *Cell) handleDead(alive int) {
 	if alive == 3 {
-		self.update = self.Activate
+		self.updater = self.Revive
 	} else {
-		self.update = self.Deactivate
+		self.updater = self.Kill
 	}
 }
 
 func (self *Cell) Update() {
-	self.update()
+	self.updater()
 }

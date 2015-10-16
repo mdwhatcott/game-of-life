@@ -28,7 +28,8 @@ func main() {
 
 func console(grid *life.Grid) {
 	for {
-		fmt.Printf(clearScreenFormat, ui.Console(grid))
+		fmt.Print(clearScreen)
+		fmt.Print(ui.Console(grid))
 		grid.Scan()
 		time.Sleep(time.Millisecond * 25)
 	}
@@ -51,7 +52,7 @@ func html(grid *life.Grid) {
 	}
 }
 
-const clearScreenFormat = "\033[2J\033[H%s"
+const clearScreen = "\033[2J\033[H"
 
 const gliderGun = `
 ------------------------x--------------------
