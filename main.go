@@ -15,7 +15,7 @@ import (
 
 func main() {
 	reader := configo.NewReader(configo.FromCommandLineFlags().
-		Register("console", "If 'true', run the simulation in the command line."))
+		RegisterBool("console", "If 'true', run the simulation in the command line."))
 
 	grid := life.New(gliderGun)
 
