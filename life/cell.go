@@ -1,67 +1,67 @@
 package life
 
-type Cell struct {
+type cell struct {
 	updater func()
 	alive   bool
 }
 
-func Dead() *Cell {
-	return new(Cell)
+func dead() *cell {
+	return new(cell)
 }
 
-func Alive() *Cell {
-	cell := Dead()
-	cell.Revive()
+func alive() *cell {
+	cell := dead()
+	cell.revive()
 	return cell
 }
 
-func (self *Cell) IsAlive() bool {
+func (self *cell) isAlive() bool {
 	return self.alive
 }
 
-func (self *Cell) Revive() {
+func (self *cell) revive() {
 	self.alive = true
 }
 
-func (self *Cell) Kill() {
+func (self *cell) kill() {
 	self.alive = false
 }
 
-func (self *Cell) Scan(neighbors []*Cell) {
+func (self *cell) scan(neighbors []*cell) {
 	alive := self.scanForLifeSigns(neighbors)
 	self.decideFate(alive)
 }
-func (self *Cell) scanForLifeSigns(neighbors []*Cell) int {
+func (self *cell) scanForLifeSigns(neighbors []*cell) int {
 	alive := 0
 	for _, neighbor := range neighbors {
-		if neighbor.IsAlive() {
+		if neighbor.isAlive() {
 			alive++
 		}
 	}
 	return alive
 }
-func (self *Cell) decideFate(alive int) {
-	if self.IsAlive() {
+func (self *cell) decideFate(alive int) {
+	if self.isAlive() {
 		self.handleLiving(alive)
 	} else {
 		self.handleDead(alive)
 	}
 }
-func (self *Cell) handleLiving(alive int) {
+func (self *cell) handleLiving(alive int) {
 	if alive < 2 || alive > 3 {
-		self.updater = self.Kill
+		self.updater = self.kill
 	} else {
-		self.updater = self.Revive
+		self.updater = self.revive
 	}
 }
-func (self *Cell) handleDead(alive int) {
+func (self *cell) handleDead(alive int) {
 	if alive == 3 {
-		self.updater = self.Revive
+		self.updater = self.revive
 	} else {
-		self.updater = self.Kill
+		self.updater = self.kill
 	}
 }
 
-func (self *Cell) Update() {
+func (self *cell) update() {
 	self.updater()
 }

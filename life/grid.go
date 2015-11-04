@@ -3,8 +3,8 @@ package life
 import "bytes"
 
 type Grid struct {
-	relations map[*Cell][]*Cell
-	cells     [][]*Cell
+	relations map[*cell][]*cell
+	cells     [][]*cell
 }
 
 func New(grid string) *Grid {
@@ -13,18 +13,18 @@ func New(grid string) *Grid {
 	self.relations = formRelationships(self.cells)
 	return self
 }
-func initialize(grid string) [][]*Cell {
-	rows := [][]*Cell{}
-	var row []*Cell
+func initialize(grid string) [][]*cell {
+	rows := [][]*cell{}
+	var row []*cell
 
 	for _, c := range grid {
 		if c == '\n' && len(row) > 0 {
 			rows = append(rows, row)
-			row = []*Cell{}
+			row = []*cell{}
 		} else if c == '-' {
-			row = append(row, Dead())
+			row = append(row, dead())
 		} else if c == 'x' {
-			row = append(row, Alive())
+			row = append(row, alive())
 		}
 	}
 	if len(row) > 0 {
@@ -32,8 +32,8 @@ func initialize(grid string) [][]*Cell {
 	}
 	return rows
 }
-func formRelationships(grid [][]*Cell) map[*Cell][]*Cell {
-	relations := map[*Cell][]*Cell{}
+func formRelationships(grid [][]*cell) map[*cell][]*cell {
+	relations := map[*cell][]*cell{}
 
 	for y, row := range grid {
 		for x, cell := range row {
@@ -42,8 +42,8 @@ func formRelationships(grid [][]*Cell) map[*Cell][]*Cell {
 	}
 	return relations
 }
-func neighbors(grid [][]*Cell, x, y int) []*Cell {
-	yes := []*Cell{}
+func neighbors(grid [][]*cell, x, y int) []*cell {
+	yes := []*cell{}
 
 	for _, option := range adjoining(x, y) {
 		if option.isOnGrid(grid) {
@@ -67,11 +67,11 @@ func adjoining(x, y int) []point {
 
 func (self *Grid) Scan() {
 	for cell, neighbors := range self.relations {
-		cell.Scan(neighbors)
+		cell.scan(neighbors)
 	}
 
 	for cell, _ := range self.relations {
-		cell.Update()
+		cell.update()
 	}
 }
 
@@ -79,7 +79,7 @@ func (self *Grid) String() string {
 	builder := bytes.NewBufferString("\n")
 	for _, row := range self.cells {
 		for _, cell := range row {
-			if cell.IsAlive() {
+			if cell.isAlive() {
 				builder.WriteString("x")
 			} else {
 				builder.WriteString("-")
@@ -95,7 +95,7 @@ type point struct {
 	y int
 }
 
-func (self point) isOnGrid(grid [][]*Cell) bool {
+func (self point) isOnGrid(grid [][]*cell) bool {
 	return self.x >= 0 &&
 		self.y >= 0 &&
 		self.x < len(grid[0]) &&
