@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	life "github.com/mdwhatcott/golife/life"
+	"github.com/mdwhatcott/golife/life"
 	"github.com/mdwhatcott/golife/ui"
 	"github.com/smartystreets/configo"
 )
