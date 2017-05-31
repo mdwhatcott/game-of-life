@@ -22,7 +22,7 @@ func main() {
 	if reader.Bool("console") {
 		console(grid)
 	} else {
-		html(grid)
+		browser(grid)
 	}
 }
 
@@ -35,13 +35,13 @@ func console(grid *life.Grid) {
 	}
 }
 
-func html(grid *life.Grid) {
+func browser(grid *life.Grid) {
 	http.HandleFunc("/", func(response http.ResponseWriter, _ *http.Request) {
 		response.Header().Set("Content-Type", "text/html")
 		fmt.Fprint(response, UI)
 	})
 
-	http.HandleFunc("/state", func(response http.ResponseWriter, _ *http.Request) {
+	http.HandleFunc("/grid", func(response http.ResponseWriter, _ *http.Request) {
 		fmt.Fprint(response, ui.HTML(grid))
 		grid.Scan()
 	})

@@ -5,12 +5,12 @@ type cell struct {
 	alive   bool
 }
 
-func dead() *cell {
+func newDeadCell() *cell {
 	return new(cell)
 }
 
-func alive() *cell {
-	cell := dead()
+func newLiveCell() *cell {
+	cell := newDeadCell()
 	cell.revive()
 	return cell
 }

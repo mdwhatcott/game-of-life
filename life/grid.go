@@ -22,9 +22,9 @@ func initialize(grid string) [][]*cell {
 			rows = append(rows, row)
 			row = []*cell{}
 		} else if c == '-' {
-			row = append(row, dead())
+			row = append(row, newDeadCell())
 		} else if c == 'x' {
-			row = append(row, alive())
+			row = append(row, newLiveCell())
 		}
 	}
 	if len(row) > 0 {
@@ -54,14 +54,14 @@ func neighbors(grid [][]*cell, x, y int) []*cell {
 }
 func adjoining(x, y int) []point {
 	return []point{
-		point{x - 1, y - 1}, // upper left
-		point{x, y - 1},     // upper
-		point{x + 1, y - 1}, // upper right
-		point{x - 1, y},     // left
-		point{x + 1, y},     // right
-		point{x - 1, y + 1}, // lower left
-		point{x, y + 1},     // lower
-		point{x + 1, y + 1}, // lower right
+		{x - 1, y - 1}, // upper left
+		{x, y - 1},     // upper
+		{x + 1, y - 1}, // upper right
+		{x - 1, y},     // left
+		{x + 1, y},     // right
+		{x - 1, y + 1}, // lower left
+		{x, y + 1},     // lower
+		{x + 1, y + 1}, // lower right
 	}
 }
 

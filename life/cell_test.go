@@ -3,182 +3,44 @@ package life
 import (
 	"testing"
 
-	. "github.com/smartystreets/goconvey/convey"
+	"github.com/smartystreets/assertions/should"
+	"github.com/smartystreets/gunit"
 )
 
-func TestCell(t *testing.T) {
-	Convey("Subject: Cell lives or dies based on state of surrounding cells", t, func() {
+func TestLiveCellFixture(t *testing.T) {
+	gunit.Run(new(LiveCellFixture), t)
+}
 
-		Convey("Given a live cell", func() {
-			cell := alive()
+type LiveCellFixture struct {
+	*gunit.Fixture
+}
 
-			Convey("with no live neighbors", func() {
-				cell.scan(liveNeighbors(0))
-				cell.update()
+func (this *LiveCellFixture) TestSurvivalDependsOnNumberIfLiveNeighbors() {
+	this.scanUpdateCheck(newLiveCell(), 0, false)
+	this.scanUpdateCheck(newLiveCell(), 1, false)
+	this.scanUpdateCheck(newLiveCell(), 2, true)
+	this.scanUpdateCheck(newLiveCell(), 3, true)
+	this.scanUpdateCheck(newLiveCell(), 4, false)
+	this.scanUpdateCheck(newLiveCell(), 5, false)
+	this.scanUpdateCheck(newLiveCell(), 6, false)
+	this.scanUpdateCheck(newLiveCell(), 7, false)
+	this.scanUpdateCheck(newLiveCell(), 8, false)
 
-				Convey("the cell should die", func() {
-					So(cell.isAlive(), ShouldBeFalse)
-				})
-			})
+	this.scanUpdateCheck(newDeadCell(), 0, false)
+	this.scanUpdateCheck(newDeadCell(), 1, false)
+	this.scanUpdateCheck(newDeadCell(), 2, false)
+	this.scanUpdateCheck(newDeadCell(), 3, true)
+	this.scanUpdateCheck(newDeadCell(), 4, false)
+	this.scanUpdateCheck(newDeadCell(), 5, false)
+	this.scanUpdateCheck(newDeadCell(), 6, false)
+	this.scanUpdateCheck(newDeadCell(), 7, false)
+	this.scanUpdateCheck(newDeadCell(), 8, false)
+}
 
-			Convey("with one live neighbor", func() {
-				cell.scan(liveNeighbors(1))
-				cell.update()
-
-				Convey("the cell should die", func() {
-					So(cell.isAlive(), ShouldBeFalse)
-				})
-			})
-
-			Convey("with two live neighbors", func() {
-				cell.scan(liveNeighbors(2))
-				cell.update()
-
-				Convey("the cell should live", func() {
-					So(cell.isAlive(), ShouldBeTrue)
-				})
-			})
-
-			Convey("with three live neighbors", func() {
-				cell.scan(liveNeighbors(3))
-				cell.update()
-
-				Convey("the cell should live", func() {
-					So(cell.isAlive(), ShouldBeTrue)
-				})
-			})
-
-			Convey("with four live neighbors", func() {
-				cell.scan(liveNeighbors(4))
-				cell.update()
-
-				Convey("the cell should die", func() {
-					So(cell.isAlive(), ShouldBeFalse)
-				})
-			})
-
-			Convey("with five live neighbors", func() {
-				cell.scan(liveNeighbors(5))
-				cell.update()
-
-				Convey("the cell should die", func() {
-					So(cell.isAlive(), ShouldBeFalse)
-				})
-			})
-
-			Convey("with six live neighbors", func() {
-				cell.scan(liveNeighbors(6))
-				cell.update()
-
-				Convey("the cell should die", func() {
-					So(cell.isAlive(), ShouldBeFalse)
-				})
-			})
-
-			Convey("with seven live neighbors", func() {
-				cell.scan(liveNeighbors(7))
-				cell.update()
-
-				Convey("the cell should die", func() {
-					So(cell.isAlive(), ShouldBeFalse)
-				})
-			})
-
-			Convey("with eight live neighbors", func() {
-				cell.scan(liveNeighbors(8))
-				cell.update()
-
-				Convey("the cell should die", func() {
-					So(cell.isAlive(), ShouldBeFalse)
-				})
-			})
-		})
-
-		Convey("Given a dead cell", func() {
-			cell := dead()
-
-			Convey("with no live neighbors", func() {
-				cell.scan(liveNeighbors(0))
-				cell.update()
-
-				Convey("the cell should stay dead", func() {
-					So(cell.isAlive(), ShouldBeFalse)
-				})
-			})
-
-			Convey("with one live neighbor", func() {
-				cell.scan(liveNeighbors(1))
-				cell.update()
-
-				Convey("the cell should stay dead", func() {
-					So(cell.isAlive(), ShouldBeFalse)
-				})
-			})
-
-			Convey("with two live neighbors", func() {
-				cell.scan(liveNeighbors(2))
-				cell.update()
-
-				Convey("the cell should stay dead", func() {
-					So(cell.isAlive(), ShouldBeFalse)
-				})
-			})
-
-			Convey("with three live neighbors", func() {
-				cell.scan(liveNeighbors(3))
-				cell.update()
-
-				Convey("the cell should come alive", func() {
-					So(cell.isAlive(), ShouldBeTrue)
-				})
-			})
-
-			Convey("with four live neighbors", func() {
-				cell.scan(liveNeighbors(4))
-				cell.update()
-
-				Convey("the cell should stay dead", func() {
-					So(cell.isAlive(), ShouldBeFalse)
-				})
-			})
-
-			Convey("with five live neighbors", func() {
-				cell.scan(liveNeighbors(5))
-				cell.update()
-
-				Convey("the cell should stay dead", func() {
-					So(cell.isAlive(), ShouldBeFalse)
-				})
-			})
-
-			Convey("with six live neighbors", func() {
-				cell.scan(liveNeighbors(6))
-				cell.update()
-
-				Convey("the cell should stay dead", func() {
-					So(cell.isAlive(), ShouldBeFalse)
-				})
-			})
-
-			Convey("with seven live neighbors", func() {
-				cell.scan(liveNeighbors(7))
-				cell.update()
-
-				Convey("the cell should stay dead", func() {
-					So(cell.isAlive(), ShouldBeFalse)
-				})
-			})
-
-			Convey("with eight live neighbors", func() {
-				cell.scan(liveNeighbors(8))
-				cell.update()
-
-				Convey("the cell should stay dead", func() {
-					So(cell.isAlive(), ShouldBeFalse)
-				})
-			})
-		})
-	})
+func (this *LiveCellFixture) scanUpdateCheck(c *cell, howMany int, expectedAlive bool) {
+	c.scan(liveNeighbors(howMany))
+	c.update()
+	this.So(c.isAlive(), should.Equal, expectedAlive)
 }
 
 func liveNeighbors(live int) []*cell {
@@ -186,10 +48,10 @@ func liveNeighbors(live int) []*cell {
 	cells := []*cell{}
 	for x := 0; x < NEIGHBORS; x++ {
 		if activated < live {
-			cells = append(cells, alive())
+			cells = append(cells, newLiveCell())
 			activated++
 		} else {
-			cells = append(cells, dead())
+			cells = append(cells, newDeadCell())
 		}
 	}
 	return cells
