@@ -45,9 +45,9 @@ func formRelationships(grid [][]*cell) map[*cell][]*cell {
 func neighbors(grid [][]*cell, x, y int) []*cell {
 	yes := []*cell{}
 
-	for _, option := range adjoining(x, y) {
-		if option.isOnGrid(grid) {
-			yes = append(yes, grid[option.y][option.x])
+	for _, candidate := range adjoining(x, y) {
+		if candidate.isOnGrid(grid) {
+			yes = append(yes, grid[candidate.y][candidate.x])
 		}
 	}
 	return yes
