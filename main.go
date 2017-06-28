@@ -14,12 +14,14 @@ import (
 )
 
 func main() {
-	reader := configo.NewReader(configo.FromCommandLineFlags().
-		RegisterBool("console", "If 'true', run the simulation in the command line."))
+	cli := configo.NewReader(
+		configo.FromCommandLineFlags().
+			RegisterBool("console", "When set, run the simulation in the command line."),
+	)
 
 	grid := life.New(gliderGun)
 
-	if reader.Bool("console") {
+	if cli.Bool("console") {
 		runInConsole(grid)
 	} else {
 		runInBrowser(grid)
