@@ -3,29 +3,34 @@ package life
 import (
 	"testing"
 
-	"github.com/smartystreets/assertions"
 	"github.com/smartystreets/assertions/should"
+	"github.com/smartystreets/gunit"
 )
 
-func TestGrid_InitialSeed_ShouldRenderEqual(t *testing.T) {
-	assert := assertions.New(t)
-
-	grid := New("---\nxxx\n---")
-	assert.So(grid.String(), should.Equal, "\n---\nxxx\n---\n")
+func TestGridFixture(t *testing.T) {
+	gunit.Run(new(GridFixture), t)
 }
 
-func TestGridUpdates_RenderedStateShouldBeCorrect(t *testing.T) {
-	assert := assertions.New(t)
+type GridFixture struct {
+	*gunit.Fixture
+}
 
-	for _, example := range [][]string{stillLife, oscillator, glider} {
-		grid := New(example[0])
-		assert.So(grid.String(), should.Equal, example[0])
+func (this *GridFixture) TestInitialSeed_ShouldRenderEqual() {
+	grid := New("---\nxxx\n---")
+	this.So(grid.String(), should.Equal, "\n---\nxxx\n---\n")
+}
 
-		for x := 1; x < len(example); x++ {
-			grid.Scan()
+func (this *GridFixture) TestGridUpdatesMatchExpectedStates() {
+	this.assertGridProgression(stillLife)
+	this.assertGridProgression(oscillator)
+	this.assertGridProgression(glider)
+}
 
-			assert.So(grid.String(), should.Equal, example[x])
-		}
+func (this *GridFixture) assertGridProgression(sequence []string) {
+	grid := New(sequence[0])
+	for x := 1; x < len(sequence); x++ {
+		grid.Scan()
+		this.AssertSprintEqual(grid, sequence[x])
 	}
 }
 
