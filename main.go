@@ -4,13 +4,13 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"net/http"
 	"time"
 
+	"github.com/julienschmidt/httprouter"
 	"github.com/mdwhatcott/golife/life"
 	"github.com/mdwhatcott/golife/ui"
 	"github.com/smartystreets/configo"
+	"github.com/smartystreets/pipeline/httpx"
 )
 
 func main() {
@@ -20,13 +20,13 @@ func main() {
 	grid := life.New(gliderGun)
 
 	if reader.Bool("console") {
-		console(grid)
+		runInConsole(grid)
 	} else {
-		browser(grid)
+		runInBrowser(grid)
 	}
 }
 
-func console(grid *life.Grid) {
+func runInConsole(grid *life.Grid) {
 	for {
 		fmt.Print(clearScreen)
 		fmt.Print(ui.Console(grid))
@@ -35,21 +35,11 @@ func console(grid *life.Grid) {
 	}
 }
 
-func browser(grid *life.Grid) {
-	http.HandleFunc("/", func(response http.ResponseWriter, _ *http.Request) {
-		response.Header().Set("Content-Type", "text/html")
-		fmt.Fprint(response, UI)
-	})
-
-	http.HandleFunc("/grid", func(response http.ResponseWriter, _ *http.Request) {
-		fmt.Fprint(response, ui.HTML(grid))
-		grid.Scan()
-	})
-
-	fmt.Println("Serving http at: ':8081'")
-	if err := http.ListenAndServe(":8081", nil); err != nil {
-		log.Fatal(err)
-	}
+func runInBrowser(grid *life.Grid) {
+	router := httprouter.New()
+	controller := ui.NewController(grid)
+	controller.AddRoutes(router)
+	httpx.NewHTTPServer(":8080", router).Listen()
 }
 
 const clearScreen = "\033[2J\033[H"
