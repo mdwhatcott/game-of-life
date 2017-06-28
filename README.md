@@ -1,4 +1,4 @@
 golife
 ======
 
-Game of life in golang (simple HTTP client/server model)
+Conway's "Game of Life" in golang using either the console/terminal or a web browser.
