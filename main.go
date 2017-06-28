@@ -95,7 +95,7 @@ const UI = `<html>
   <script type="text/javascript">
     jQuery(document).ready(function() {
       setInterval(function() {
-        $.ajax("/state", {
+        $.ajax("/grid", {
           success: function(data) {
             $('body').html(data);
           }
