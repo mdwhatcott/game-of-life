@@ -10,7 +10,7 @@ import (
 	"github.com/mdwhatcott/golife/life"
 	"github.com/mdwhatcott/golife/ui"
 	"github.com/smartystreets/configo"
-	"github.com/smartystreets/pipeline/httpx"
+	"github.com/smartystreets/httpx"
 )
 
 func main() {
