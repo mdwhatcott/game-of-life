@@ -12,7 +12,7 @@ func TestConsoleUI(t *testing.T) {
 	var (
 		input    = "-------------------------"
 		expected = "                         "
-		actual   = Console(bytes.NewBufferString(input)).String()
+		actual   = console(bytes.NewBufferString(input))
 	)
 	assertions.New(t).So(actual, should.Equal, expected)
 }

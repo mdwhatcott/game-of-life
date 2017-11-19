@@ -5,14 +5,11 @@ import (
 	"log"
 	"net/http"
 	"strings"
-
-	"github.com/mdwhatcott/golife/life"
 )
 
-func runInBrowser(config *Config) {
-	grid := life.New(config.GridState)
+func animateInBrowser(config *Config) {
 	router := http.NewServeMux()
-	newController(grid, config.Iterations).AddRoutes(router)
+	newController(config.Grid, config.Iterations).AddRoutes(router)
 	log.Printf("[INFO] Listening for web traffic on %s.", config.Animation)
 	http.ListenAndServe(config.Animation, router)
 }

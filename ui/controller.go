@@ -31,6 +31,7 @@ func (this *controller) HTML(response http.ResponseWriter, _ *http.Request) {
 
 func (this *controller) Grid(response http.ResponseWriter, _ *http.Request) {
 	if this.iterations > 0 {
+		this.iterations--
 		defer this.grid.Scan()
 	}
 	fmt.Fprint(response, html(this.grid))

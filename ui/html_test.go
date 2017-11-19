@@ -12,7 +12,7 @@ func TestHTMLUI(t *testing.T) {
 	var (
 		input    = "\n\n--xx"
 		expected = "<br><br>&nbsp;&nbsp;••"
-		actual   = HTML(bytes.NewBufferString(input)).String()
+		actual   = html(bytes.NewBufferString(input))
 	)
 	assertions.New(t).So(actual, should.Equal, expected)
 }

@@ -5,6 +5,7 @@ package main
 import (
 	"flag"
 
+	"github.com/mdwhatcott/golife/life"
 	"github.com/mdwhatcott/golife/ui"
 )
 
@@ -21,8 +22,10 @@ func initialize(config *ui.Config) {
 			"display each step in 'console', "+
 			"or show only final state in console if left [blank].)")
 	flag.IntVar(&config.Iterations, "iterations", 0xffffffff, "How many iterations to simulate?")
-	flag.StringVar(&config.GridState, "grid", gliderGun, "The starting grid state. (default: 'glider gun')")
+	grid := flag.String("grid", gliderGun, "The starting grid state. (default: 'glider gun')")
 	flag.Parse()
+
+	config.Grid = life.New(*grid)
 }
 
 const gliderGun = `
