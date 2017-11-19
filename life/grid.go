@@ -6,8 +6,9 @@ import (
 )
 
 type Grid struct {
-	relations map[*cell][]*cell
-	cells     [][]*cell
+	relations   map[*cell][]*cell
+	cells       [][]*cell
+	lockCorners bool
 }
 
 func New(grid string) *Grid {
@@ -66,6 +67,24 @@ func adjoining(x, y int) []point {
 		{x, y + 1},     // lower
 		{x + 1, y + 1}, // lower right
 	}
+}
+
+func (self *Grid) LockCornerLightsOn() {
+	top := self.cells[0]
+	topLeft := top[0]
+	topLeft.revive()
+	topLeft.lock()
+	topRight := top[len(top)-1]
+	topRight.revive()
+	topRight.lock()
+
+	bottom := self.cells[len(self.cells)-1]
+	bottomLeft := bottom[0]
+	bottomLeft.revive()
+	bottomLeft.lock()
+	bottomRight := bottom[len(top)-1]
+	bottomRight.revive()
+	bottomRight.lock()
 }
 
 func (self *Grid) Scan() {

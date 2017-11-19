@@ -3,6 +3,7 @@ package life
 type cell struct {
 	updater func()
 	alive   bool
+	locked  bool
 }
 
 func newDeadCell() *cell {
@@ -27,6 +28,10 @@ func (self *cell) kill() {
 	self.alive = false
 }
 
+func (this *cell) lock() {
+	this.locked = true
+}
+
 func (self *cell) scan(neighbors []*cell) {
 	alive := self.scanForLifeSigns(neighbors)
 	self.decideFate(alive)
@@ -41,7 +46,9 @@ func (self *cell) scanForLifeSigns(neighbors []*cell) int {
 	return alive
 }
 func (self *cell) decideFate(alive int) {
-	if self.isAlive() {
+	if self.locked {
+		self.updater = func() {}
+	} else if self.isAlive() {
 		self.handleLiving(alive)
 	} else {
 		self.handleDead(alive)
