@@ -14,7 +14,7 @@ func New(grid string) *Grid {
 	return self
 }
 func initialize(grid string) [][]*cell {
-	rows := [][]*cell{}
+	var rows [][]*cell
 	var row []*cell
 
 	for _, c := range grid {
@@ -43,7 +43,7 @@ func formRelationships(grid [][]*cell) map[*cell][]*cell {
 	return relations
 }
 func neighbors(grid [][]*cell, x, y int) []*cell {
-	yes := []*cell{}
+	var yes []*cell
 
 	for _, candidate := range adjoining(x, y) {
 		if candidate.isOnGrid(grid) {
@@ -70,7 +70,7 @@ func (self *Grid) Scan() {
 		cell.scan(neighbors)
 	}
 
-	for cell, _ := range self.relations {
+	for cell := range self.relations {
 		cell.update()
 	}
 }
