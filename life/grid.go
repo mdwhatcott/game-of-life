@@ -1,6 +1,9 @@
 package life
 
-import "bytes"
+import (
+	"bytes"
+	"strings"
+)
 
 type Grid struct {
 	relations map[*cell][]*cell
@@ -100,4 +103,8 @@ func (self point) isOnGrid(grid [][]*cell) bool {
 		self.y >= 0 &&
 		self.x < len(grid[0]) &&
 		self.y < len(grid)
+}
+
+func (this *Grid) CountAlive() int {
+	return strings.Count(this.String(), "x")
 }
