@@ -3,48 +3,27 @@
 package main
 
 import (
-	"fmt"
-	"time"
+	"flag"
 
-	"github.com/julienschmidt/httprouter"
-	"github.com/mdwhatcott/golife/life"
 	"github.com/mdwhatcott/golife/ui"
-	"github.com/smartystreets/configo"
-	"github.com/smartystreets/httpx"
 )
 
 func main() {
-	cli := configo.NewReader(
-		configo.FromCommandLineFlags().
-			RegisterBool("console", "When set, run the simulation in the command line."),
-	)
-
-	grid := life.New(gliderGun)
-
-	if cli.Bool("console") {
-		runInConsole(grid)
-	} else {
-		runInBrowser(grid)
-	}
+	config := new(ui.Config)
+	initialize(config)
+	config.RunSimulation()
 }
 
-func runInConsole(grid *life.Grid) {
-	for {
-		fmt.Print(clearScreen)
-		fmt.Print(ui.Console(grid))
-		grid.Scan()
-		time.Sleep(time.Millisecond * 25)
-	}
+func initialize(config *ui.Config) {
+	flag.StringVar(&config.Animation, "animate", "console",
+		"Values: console|ip:port|[blank] "+
+			"(Display each step in browser at 'ip:port', "+
+			"display each step in 'console', "+
+			"or show only final state in console if left [blank].)")
+	flag.IntVar(&config.Iterations, "iterations", 0xffffffff, "How many iterations to simulate?")
+	flag.StringVar(&config.GridState, "grid", gliderGun, "The starting grid state. (default: 'glider gun')")
+	flag.Parse()
 }
-
-func runInBrowser(grid *life.Grid) {
-	router := httprouter.New()
-	controller := ui.NewController(grid)
-	controller.AddRoutes(router)
-	httpx.NewHTTPServer(":8080", router).Listen()
-}
-
-const clearScreen = "\033[2J\033[H"
 
 const gliderGun = `
 ------------------------x--------------------
@@ -79,24 +58,4 @@ xx--------x---x-xx----x-x--------------------
 ---------------------------------------------
 ---------------------------------------------
 ---------------------------------------------
-`
-
-const UI = `<html>
-<head>
-  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script type="text/javascript">
-    jQuery(document).ready(function() {
-      setInterval(function() {
-        $.ajax("/grid", {
-          success: function(data) {
-            $('body').html(data);
-          }
-        });
-      }, 75)
-    });
-  </script>
-</head>
-<body style="font-family: monospace;">
-</body>
-</html>
 `

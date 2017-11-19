@@ -1,37 +1,42 @@
 package ui
 
 import (
-	"github.com/julienschmidt/httprouter"
+	"fmt"
+	"net/http"
+
 	"github.com/mdwhatcott/golife/life"
-	"github.com/smartystreets/detour"
 )
 
-type Controller struct {
-	grid *life.Grid
+type controller struct {
+	grid       *life.Grid
+	iterations int
 }
 
-func NewController(grid *life.Grid) *Controller {
-	return &Controller{grid: grid}
-}
-
-func (this *Controller) AddRoutes(router *httprouter.Router) {
-	router.Handler("GET", "/", detour.New(this.HTML))
-	router.Handler("GET", "/grid", detour.New(this.Grid))
-}
-
-func (this *Controller) HTML() detour.Renderer {
-	return &detour.ContentResult{
-		ContentType: "text/html",
-		Content:     UI,
+func newController(grid *life.Grid, iterations int) *controller {
+	return &controller{
+		grid:       grid,
+		iterations: iterations,
 	}
 }
 
-func (this *Controller) Grid() detour.Renderer {
-	defer this.grid.Scan()
-	return &detour.ContentResult{Content: HTML(this.grid).String()}
+func (this *controller) AddRoutes(router *http.ServeMux) {
+	router.HandleFunc("/", this.HTML)
+	router.HandleFunc("/grid", this.Grid)
 }
 
-const UI = `<html>
+func (this *controller) HTML(response http.ResponseWriter, _ *http.Request) {
+	response.Header().Set("ContentType", "text/html")
+	fmt.Fprint(response, uiHTML)
+}
+
+func (this *controller) Grid(response http.ResponseWriter, _ *http.Request) {
+	if this.iterations > 0 {
+		defer this.grid.Scan()
+	}
+	fmt.Fprint(response, html(this.grid))
+}
+
+const uiHTML = `<html>
 <head>
   <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script type="text/javascript">
