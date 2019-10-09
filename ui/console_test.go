@@ -10,8 +10,8 @@ import (
 
 func TestConsoleUI(t *testing.T) {
 	var (
-		input    = "-------------------------"
-		expected = "                         "
+		input    = "----------x--------------"
+		expected = "          •              "
 		actual   = console(bytes.NewBufferString(input))
 	)
 	assertions.New(t).So(actual, should.Equal, expected)
