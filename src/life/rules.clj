@@ -1,4 +1,4 @@
-(ns life.core
+(ns life.rules
   (:require [clojure.set :as set]))
 
 (defn block9 [x y]

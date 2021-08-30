@@ -1,6 +1,6 @@
-(ns life.core-spec
+(ns life.rules-spec
   (:require [speclj.core :refer :all]
-            [life.core :refer :all]
+            [life.rules :refer :all]
             [clojure.set :as set]))
 
 (def home [0 0])
