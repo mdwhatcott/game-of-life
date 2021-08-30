@@ -1,4 +1,7 @@
 golife
 ======
 
-Conway's "Game of Life" in golang using either the console/terminal or a web browser.
+Conway's "Game of Life" in several languages:
+
+- [go](https://github.com/mdwhatcott/game-of-life/tree/go)
+- [clojure](https://github.com/mdwhatcott/game-of-life/tree/clojure)
