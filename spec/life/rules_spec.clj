@@ -51,25 +51,6 @@
 
   )
 
-(def oscillator-test
-  ["simple oscillator"
-
-   (str "---"
-        "xxx"
-        "---")
-
-   (str "-x-"
-        "-x-"
-        "-x-")
-
-   (str "---"
-        "xxx"
-        "---")
-
-   (str "-x-"
-        "-x-"
-        "-x-")])
-
 (def glider-test
   ["glider gun"
 
@@ -107,7 +88,7 @@
            [x y]))))
 
 (describe "Grid Evolution"
-  (for [[title & pattern] [oscillator-test glider-test]]
+  (for [[title & pattern] [glider-test]]
     (it (str "iterates to create: " title)
       (let [expected (map parse-grid pattern)
             input    (first expected)
