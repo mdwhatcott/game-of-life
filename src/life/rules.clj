@@ -25,6 +25,3 @@
         updates (map #(update-cell % grid) cells)]
     (set (remove nil? updates))))
 
-(defn -main
-  [& args]
-  (println "Hello World"))
