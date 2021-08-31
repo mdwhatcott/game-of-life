@@ -18,7 +18,7 @@
   (it "starts in the stopped state"
     (let [state (setup {:mouse initial-mouse} play-button-box)]
       (should= :stopped (:player state))
-      (should= {:box       [[0 0] [4 4]]
+      (should= {:bounds    [[0 0] [4 4]]
                 :hovering? false} (:play-button state))))
 
   (for [x (range 1 4) y (range 1 4)]
