@@ -8,14 +8,14 @@
 (def grid-bounds (bounds/bounding-cube [50 50] 100))
 
 (def grid {:bounds         grid-bounds
-           :cell-row-count 10
+           :cell-row-count 20
            :live-cells     #{}})
 
 (def game-cells [[0 0]
                  [1 1]])
 
-(def grid-cells [[[0 0] [10 10]]
-                 [[10 10] [20 20]]])
+(def grid-cells [[[0 0] [5 5]]
+                 [[5 5] [10 10]]])
 
 (describe "Grid Translations"
   (it "translates cell locations to bounding boxes relative to a square grid"
@@ -29,7 +29,7 @@
 
 (describe "Manual Grid Updates"
   (it "starts with an empty grid"
-    (should= {:grid grid} (setup {} grid-bounds 10)))
+    (should= {:grid grid} (setup {} grid-bounds 20)))
 
   (it "makes dead cells come alive when clicked before start of game"
     (let [input  (setup {:mouse (click-at 1 1)} grid-bounds 10)

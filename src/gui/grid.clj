@@ -13,7 +13,10 @@
 
 (defn grid-cell->game-cell [grid-cell grid]
   (let [[x y] (first grid-cell)
-        width (:cell-row-count grid)]
+        grid-upper-left-x  (get-in grid [:bounds 0 0])
+        grid-lower-right-x (get-in grid [:bounds 1 0])
+        grid-width         (- grid-lower-right-x grid-upper-left-x)
+        width              (/ grid-width (:cell-row-count grid))]
     [(int (/ x width))
      (int (/ y width))]))
 
