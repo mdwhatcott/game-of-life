@@ -6,7 +6,8 @@
 (describe "Bounding Boxes"
 
   (it "calculates a bounding box from a center point, width, and height"
-    (should= [[0 0] [10 10]] (bounding-cube [5 5] 10)))
+    (should= [[0 0] [10 10]] (bounding-cube [5 5] 10))
+    (should= [[0 0] [10 20]] (bounding-box [5 10] 10 20)))
 
   (it "identifies when a containing coordinate"
     (let [box (bounding-cube [5 5] 10)]

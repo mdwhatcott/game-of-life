@@ -8,7 +8,7 @@
   (let [w (/ width 2)
         h (/ height 2)]
     [[(- x w) (- y h)]
-     [(+ x w) (+ x h)]]))
+     [(+ x w) (+ y h)]]))
 
 (defn bounding-cube [[x y] width]
   (bounding-box [x y] width width))
