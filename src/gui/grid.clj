@@ -43,3 +43,7 @@
                   updated    (action grid-cells grid-cell)]
               (assoc-in state [:grid :live-cells] updated))))))
 
+(defn full-square-grid [per-row width]
+  (for [y (range per-row)
+        x (range per-row)]
+    [(* x width) (* y width)]))

@@ -58,3 +58,10 @@
           result          (update_ already-playing)]
       (should= #{} (:live-cells (:grid result)))))
   )
+
+(describe "Generating Entire Grids (for drawing)"
+  (it "calculates all upper-left corners"
+    (let [result (full-square-grid 3 10)]
+      (should= [[0 0] [10 0] [20 0]
+                [0 10] [10 10] [20 10]
+                [0 20] [10 20] [20 20]] result))))
