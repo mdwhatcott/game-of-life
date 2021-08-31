@@ -14,7 +14,7 @@
 (def grid-cells [[[0 0] [10 10]]
                  [[10 10] [20 20]]])
 
-(describe "Grid Rendering"
+(describe "Grid Translations"
   (it "translates cell locations to bounding boxes relative to a square grid"
     (let [actual (map #(game-cell->grid-cell % grid) game-cells)]
       (should= grid-cells actual)))
