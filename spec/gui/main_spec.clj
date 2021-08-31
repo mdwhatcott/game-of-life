@@ -11,7 +11,7 @@
                                        :x               nil
                                        :y               nil}
                 :frame-count          0
-                :frames-per-evolution 10
+                :frames-per-evolution 5
                 :player               :stopped
                 :play-button          {:bounds    [[0 500] [500 600]]
                                        :hovering? false}

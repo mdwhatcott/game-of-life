@@ -26,15 +26,17 @@
 (def grid-bounds
   (bounds/bounding-cube grid-center window-width))
 
-(def squares-per-row 50)
+(def cells-per-row 50)
+(def width-of-each-cell (/ window-width cells-per-row))
+(def full-grid (grid/full-square-grid cells-per-row width-of-each-cell))
 
-(def frames-per-evolution 10)
+(def frames-per-evolution 5)
 
 (defn setup-root []
   (-> (mouse/setup {})
       (frame-count/setup frames-per-evolution)
       (controller/setup control-panel-bounds)
-      (grid/setup grid-bounds squares-per-row)))
+      (grid/setup grid-bounds cells-per-row)))
 
 (defn update-root [state]
   (-> state
@@ -45,9 +47,24 @@
       (game/update_)))
 
 (defn draw-root [state]
-  ; draw grid
-  ; draw live cells
-  ; when :stopped: draw 'click down here text'
+  (q/background 240)
+  (q/fill 240)
+
+  (when (not (game/playing? state))
+    (q/stroke 128)
+    (doseq [[x y] full-grid]
+      (q/rect x y width-of-each-cell width-of-each-cell))
+
+    (q/fill 0)
+    (q/text-align :center :center)
+    (let [[x y] control-panel-center]
+      (q/text "Click a few squares, then click down here to begin!" x y)))
+
+  (q/stroke 50)
+  (q/fill 50)
+  (doseq [[[x y] _upper-right] (get-in state [:grid :live-cells])]
+    (q/rect x y width-of-each-cell width-of-each-cell))
+
   )
 
 (declare game-of-life)
