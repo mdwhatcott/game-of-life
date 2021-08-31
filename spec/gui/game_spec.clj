@@ -31,8 +31,18 @@
                   :player               :playing
                   :game                 #{[1 1] [2 1] [3 1]}}
           states (take 4 (iterate update-all input))
-          grids  (map :game states)]
+          games  (map :game states)
+          grids  (map :grid states)
+          grids  (map :live-cells grids)]
+
+      (should= (nth games 0) (nth games 1))
+      (should= (nth games 2) (nth games 3))
+      (should-not= (nth games 0) (nth games 2))
+      (should-not= (nth games 1) (nth games 3))
+
       (should= (nth grids 0) (nth grids 1))
-      (should= (nth grids 2) (nth grids 3))))
+      (should= (nth grids 2) (nth grids 3))
+      (should-not= (nth grids 0) (nth grids 2))
+      (should-not= (nth grids 1) (nth grids 3))))
 
   )

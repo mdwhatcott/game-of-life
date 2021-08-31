@@ -14,7 +14,13 @@
     updated))
 
 (defn advance-game [state]
-  (assoc state :game (rules/evolve (:game state))))
+  (let [game1 (:game state)
+        game2 (rules/evolve game1)
+        grid1 (:grid state)
+        cells (map #(gui-grid/game-cell->grid-cell % grid1) game2)
+        grid2 (assoc grid1 :live-cells cells)]
+    (assoc state :game game2
+                 :grid grid2)))
 
 (defn ready-to-advance? [state]
   (let [per    (:frames-per-evolution state)
