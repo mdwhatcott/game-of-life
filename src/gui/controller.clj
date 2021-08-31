@@ -2,21 +2,21 @@
   (:require
     [gui.bounds :as bounds]))
 
-(def initial-play-button
-  {:box       (bounds/bounding-box [250 550] 500 100)
-   :hovering? false})
-
-(defn setup [state]
+(defn setup [state box]
   (-> state
       (assoc :player :stopped)
-      (assoc :play-button initial-play-button)))
+      (assoc :play-button {:box box :hovering? false})))
 
 (defn update_ [state]
-  (let [{:keys [x y clicked?]} (:mouse state)
-        box (get-in state [:play-button :box])]
-    (cond (= :playing (:player state)) state
-          (not (bounds/bounded? [x y] box)) state
-          (not clicked?) (assoc-in state [:play-button :hovering?] true)
-          :else (-> state
-                    (assoc :player :playing)
-                    (assoc-in [:play-button :hovering?] false)))))
+  (if (= :playing (:player state))
+    state
+    (let [{:keys [x y clicked?]} (:mouse state)
+          box      (get-in state [:play-button :box])
+          bounded? (bounds/bounded? [x y] box)]
+      (cond (and clicked? bounded?)
+            (-> state
+                (assoc :player :playing)
+                (assoc-in [:play-button :hovering?] false))
+
+            :else
+            (assoc-in state [:play-button :hovering?] bounded?)))))
