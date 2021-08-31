@@ -13,7 +13,3 @@
           result (update_ input)]
       (should= 1 (:frame-count result))))
   )
-
-#_(describe "Updating the 'Playing' State"
-  (it "starts in the stopped state"
-    (let [state (setup-)])))
