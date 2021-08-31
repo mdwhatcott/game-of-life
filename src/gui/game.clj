@@ -18,6 +18,7 @@
         game2 (rules/evolve game1)
         grid1 (:grid state)
         cells (map #(gui-grid/game-cell->grid-cell % grid1) game2)
+        ; TODO: filter out cells outside the grid
         grid2 (assoc grid1 :live-cells cells)]
     (assoc state :game game2
                  :grid grid2)))
