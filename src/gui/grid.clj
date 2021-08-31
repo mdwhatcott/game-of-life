@@ -1,4 +1,5 @@
-(ns gui.grid)
+(ns gui.grid
+  (:require [gui.bounds :as bounds]))
 
 (defn game-cell->grid-cell [game-cell grid]
   (let [grid-upper-left-x  (get-in grid [:bounds 0 0])
@@ -13,4 +14,29 @@
 (defn grid-cell->game-cell [grid-cell grid]
   (let [[x y] (first grid-cell)
         width (:cell-row-count grid)]
-    [(/ x width) (/ y width)]))
+    [(int (/ x width))
+     (int (/ y width))]))
+
+
+(defn setup [state bounds cell-row-count]
+  (assoc state :grid {:bounds         bounds
+                      :cell-row-count cell-row-count
+                      :live-cells     #{}}))
+
+(defn update_ [state]
+  (if (= :playing (:player state))
+    state
+    (let [{:keys [x y clicked?]} (:mouse state)
+          grid (:grid state)]
+      (cond (not clicked?) state
+            (not (bounds/bounded? [x y] (:bounds grid))) state
+            :else
+            (let [
+                  grid-cells (get-in state [:grid :live-cells])
+                  game-cell  (grid-cell->game-cell [[x y]] grid)
+                  grid-cell  (game-cell->grid-cell game-cell grid)
+                  is-alive?  (contains? grid-cells grid-cell)
+                  action     (if is-alive? disj conj)
+                  updated    (action grid-cells grid-cell)]
+              (assoc-in state [:grid :live-cells] updated))))))
+
