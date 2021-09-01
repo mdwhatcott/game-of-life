@@ -40,11 +40,11 @@
 
 (defn update-root [state]
   (-> state
-      (mouse/update_ (q/mouse-pressed?) (q/mouse-x) (q/mouse-y))
-      (frame-count/update_)
-      (controller/update_)
-      (grid/update_)
-      (game/update_)))
+      mouse/update_
+      frame-count/update_
+      controller/update_
+      grid/update_
+      game/update_))
 
 (defn draw-root [state]
   (q/background 240)
