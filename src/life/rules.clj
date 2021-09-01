@@ -24,4 +24,3 @@
   (let [cells   (cells-in-play grid)
         updates (map #(update-cell % grid) cells)]
     (set (remove nil? updates))))
-

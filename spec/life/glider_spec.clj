@@ -39,7 +39,7 @@
                :when (= (nth raw n) \*)]
            [x y]))))
 
-; TODO: activate
+; TODO: re-activate
 #_(describe "Grid Evolution"
   (for [[title & pattern] [glider-test]]
     (it (str "iterates to create: " title)

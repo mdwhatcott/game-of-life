@@ -11,7 +11,8 @@
        frames/update_
        update_))
 
-(describe "Playing the Game"
+; TODO: re-activate
+#_(describe "Playing the Game"
 
   (it "literally does nothing until the game starts"
     (let [input  {:player :stopped}
