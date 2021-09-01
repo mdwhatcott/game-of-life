@@ -49,4 +49,12 @@
                        (set (block9 0 0))
                        (set (block9 1 1))))))
 
+  (it "evolves"
+    (let [oscillator [#{[1 1] [1 2] [1 3]}
+                      #{[0 2] [1 2] [2 2]}]
+          expected   (take 8 (cycle oscillator))
+          input      (first oscillator)
+          actual     (take 8 (iterate evolve input))]
+      (should= expected actual)))
+
   )
