@@ -6,6 +6,7 @@
     [gui.draw :as draw]
     [gui.frame-count :as frame-count]
     [gui.game :as game]
+    [gui.gosper :as gosper]
     [gui.grid :as grid]
     [gui.mouse :as mouse]))
 
@@ -14,7 +15,8 @@
       mouse/setup
       frame-count/setup
       (controller/setup draw/control-panel-bounds)
-      (grid/setup draw/grid-bounds draw/cells-per-row draw/width-of-each-cell)))
+      (grid/setup draw/grid-bounds draw/cells-per-row draw/width-of-each-cell)
+      gosper/setup))
 
 (defn update-root [state]
   (-> state
