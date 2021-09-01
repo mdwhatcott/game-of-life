@@ -19,19 +19,22 @@
                                        :hovering? false}
                 :grid                 {:bounds         [[0 0] [500 500]]
                                        :cell-row-count 50
-                                       :live-cells     #{}}
-                :intro-grid           full-grid
+                                       :live-cells     #{}
+                                       :intro-grid     full-grid
+                                       :cell-width     10}
                 } initial))))
 
 (def test-drawing-state
-  {:intro-grid [[0 0]
-                [1 1]
-                [2 2]
-                [3 3]]
-   :grid       {:live-cells [[[4 4] nil]
-                             [[5 5] nil]
-                             [[6 6] nil]
-                             [[7 7] nil]]}})
+  {
+   :grid {:cell-width 10
+          :intro-grid [[0 0]
+                       [1 1]
+                       [2 2]
+                       [3 3]]
+          :live-cells [[[4 4] nil]
+                       [[5 5] nil]
+                       [[6 6] nil]
+                       [[7 7] nil]]}})
 
 (defn assert-background-drawn []
   (should-have-invoked :background {:with [240] :times 1}))

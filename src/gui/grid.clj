@@ -21,10 +21,19 @@
      (int (/ y width))]))
 
 
-(defn setup [state bounds cell-row-count]
-  (assoc state :grid {:bounds         bounds
-                      :cell-row-count cell-row-count
-                      :live-cells     #{}}))
+(defn full-square-grid [per-row width]
+  (for [y (range per-row)
+        x (range per-row)]
+    [(* x width) (* y width)]))
+
+(defn setup [state bounds cell-row-count cell-width]
+  (assoc state
+    :grid {:bounds         bounds
+           :cell-row-count cell-row-count
+           :live-cells     #{}
+           :cell-width     cell-width
+           :intro-grid     (full-square-grid cell-row-count
+                                             cell-width)}))
 
 (defn update_ [state]
   (if (= :playing (:player state))
@@ -42,8 +51,3 @@
                   action     (if is-alive? disj conj)
                   updated    (action grid-cells grid-cell)]
               (assoc-in state [:grid :live-cells] updated))))))
-
-(defn full-square-grid [per-row width]
-  (for [y (range per-row)
-        x (range per-row)]
-    [(* x width) (* y width)]))

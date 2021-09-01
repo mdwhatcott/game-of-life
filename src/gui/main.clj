@@ -48,11 +48,10 @@
 (def click-here-text "Click a few squares, then click down here to begin!")
 
 (defn setup-root []
-  (-> {:intro-grid full-grid}
-      (mouse/setup)
+  (-> (mouse/setup {})
       (frame-count/setup frames-per-evolution)
       (controller/setup control-panel-bounds)
-      (grid/setup grid-bounds cells-per-row)))
+      (grid/setup grid-bounds cells-per-row width-of-each-cell)))
 
 (defn update-root [state]
   (-> state
@@ -66,8 +65,9 @@
   (when (not (game/playing? state))
     (q/fill (:background color))
     (q/stroke (:grid-lines color))
-    (doseq [[x y] (:intro-grid state)]
-      (q/rect x y width-of-each-cell width-of-each-cell))))
+    (let [{:keys [cell-width intro-grid]} (:grid state)]
+      (doseq [[x y] intro-grid]
+       (q/rect x y cell-width cell-width)))))
 
 (defn draw-intro-text [state]
   (when (not (game/playing? state))
@@ -79,8 +79,9 @@
 (defn draw-live-cells [state]
   (q/fill (:cell color))
   (q/stroke (:cell color))
-  (doseq [[[x y] _upper-right] (get-in state [:grid :live-cells])]
-    (q/rect x y width-of-each-cell width-of-each-cell)))
+  (let [{:keys [cell-width live-cells]} (:grid state)]
+    (doseq [[[x y] _upper-right] live-cells]
+     (q/rect x y cell-width cell-width))))
 
 (defn draw-root [state]
   (q/background (:background color))

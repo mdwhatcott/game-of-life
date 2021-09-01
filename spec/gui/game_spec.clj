@@ -20,7 +20,7 @@
 
   (it "initializes the game cells from the gui cells when the game starts"
     (let [input  {:player :playing}
-          input  (gui-grid/setup input (bounds/bounding-cube [50 50] 100) 10)
+          input  (gui-grid/setup input (bounds/bounding-cube [50 50] 100) 10 10)
           input  (assoc-in input [:grid :live-cells] #{[[0 0] [10 10]]})
           result (update_ input)]
       (should= #{[0 0]} (:game result))))
@@ -30,7 +30,7 @@
                   :frame-count          0
                   :player               :playing
                   :game                 #{[1 1] [2 1] [3 1]}}
-          input  (gui-grid/setup input (bounds/bounding-cube [50 50] 100) 10)
+          input  (gui-grid/setup input (bounds/bounding-cube [50 50] 100) 10 10)
           states (take 4 (iterate update-all input))
           games  (map :game states)
           grids  (map :grid states)
@@ -51,7 +51,7 @@
                   :frame-count          0
                   :player               :playing
                   :game                 #{[1 0] [2 0] [3 0]}} ; top-most row
-          input  (gui-grid/setup input (bounds/bounding-cube [50 50] 100) 10)
+          input  (gui-grid/setup input (bounds/bounding-cube [50 50] 100) 10 10)
           result (update-all input)]
       (should= #{[2 0]
                  [2 1]} (:game result))
@@ -63,7 +63,7 @@
                   :frame-count          0
                   :player               :playing
                   :game                 #{[0 0] [0 1] [0 2]}} ; left-most column
-          input  (gui-grid/setup input (bounds/bounding-cube [50 50] 100) 10)
+          input  (gui-grid/setup input (bounds/bounding-cube [50 50] 100) 10 10)
           result (update-all input)]
       (should= #{[0 1]
                  [1 1]} (:game result))
@@ -75,7 +75,7 @@
                   :frame-count          0
                   :player               :playing
                   :game                 #{[9 0] [9 1] [9 2]}} ; right-most column
-          input  (gui-grid/setup input (bounds/bounding-cube [50 50] 100) 10)
+          input  (gui-grid/setup input (bounds/bounding-cube [50 50] 100) 10 10)
           result (update-all input)]
       (should= #{[8 1]
                  [9 1]} (:game result))
@@ -87,7 +87,7 @@
                   :frame-count          0
                   :player               :playing
                   :game                 #{[0 9] [1 9] [2 9]}} ; bottom-most row
-          input  (gui-grid/setup input (bounds/bounding-cube [50 50] 100) 10)
+          input  (gui-grid/setup input (bounds/bounding-cube [50 50] 100) 10 10)
           result (update-all input)]
       (should= #{[1 8]
                  [1 9]} (:game result))
