@@ -1,4 +1,5 @@
 .DS_Store
 golife
 coverage.out
-.idea
+.idea/
+target/
