@@ -1,28 +1,8 @@
-(ns gui.main-spec
+(ns gui.draw-spec
   (:require
     [quil.core :as q]
     [speclj.core :refer :all]
-    [gui.main :refer :all]))
-
-
-(describe "Setup"
-  (it "initializes all the initial state"
-    (let [initial (setup-root)]
-      (should= {:mouse                {:ready-to-click? true
-                                       :clicked?        false
-                                       :x               nil
-                                       :y               nil}
-                :frame-count          0
-                :frames-per-evolution 5
-                :player               :stopped
-                :play-button          {:bounds    [[0 500] [500 600]]
-                                       :hovering? false}
-                :grid                 {:bounds         [[0 0] [500 500]]
-                                       :cell-row-count 50
-                                       :live-cells     #{}
-                                       :intro-grid     full-grid
-                                       :cell-width     10}
-                } initial))))
+    [gui.draw :refer :all]))
 
 (def test-drawing-state
   {
@@ -52,6 +32,9 @@
   (should-have-invoked :text-align {:with [:center :center] :times times})
   (should-have-invoked :text {:with [click-here-text 250 550] :times times}))
 
+(defn assert-intro-erased-out [times]
+  (should-have-invoked :rect {:with [0 500 500 100] :times times}))
+
 (defn assert-live-cells-drawn []
   (should-have-invoked :fill {:with [50]})
   (should-have-invoked :stroke {:with [50]})
@@ -73,11 +56,12 @@
                       q/text-align (stub :text-align)
                       q/text       (stub :text)]
 
-          (draw-root state)
+          (all state)
 
           (assert-background-drawn)
           (assert-intro-grid-drawn 1)
           (assert-intro-text-drawn 1)
+          (assert-intro-erased-out 0)
           (assert-live-cells-drawn))))
 
 
@@ -90,11 +74,12 @@
                       q/text-align (stub :text-align)
                       q/text       (stub :text)]
 
-          (draw-root state)
+          (all state)
 
           (assert-background-drawn)
           (assert-intro-grid-drawn 0)
           (assert-intro-text-drawn 0)
+          (assert-intro-erased-out 1)
           (assert-live-cells-drawn))))
 
     )

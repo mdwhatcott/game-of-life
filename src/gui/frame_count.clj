@@ -1,6 +1,8 @@
 (ns gui.frame-count)
 
-(defn setup [state frames-per-evolution]
+(def frames-per-evolution 5)
+
+(defn setup [state]
   (assoc state :frame-count 0
                :frames-per-evolution frames-per-evolution))
 

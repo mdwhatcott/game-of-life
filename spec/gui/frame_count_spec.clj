@@ -5,12 +5,12 @@
 
 (describe "Updating the Frame Count"
   (it "starts the frame-count at zero"
-    (let [state (setup {} 42)]
+    (let [state (setup {})]
       (should= 0 (:frame-count state))
-      (should= 42 (:frames-per-evolution state))))
+      (should= 5 (:frames-per-evolution state))))
 
   (it "increments the frame count on the state with each invocation"
-    (let [input  (setup {} 1)
+    (let [input  (setup {})
           result (update_ input)]
       (should= 1 (:frame-count result))))
   )
