@@ -91,7 +91,7 @@
     :color (:background color)}])
 
 (defn all [state]
-  (render/render-shapes
+  (render/shapes
     (concat background-shapes
             (intro-grid-shapes state)
             (intro-text-shapes state)

@@ -69,14 +69,14 @@
   (it "draws background, grid lines, intro text, and live cells before the game starts"
     (let [state (assoc input-drawing-state :player :stopped)
           draw  (stub :draw)]
-      (with-redefs [render-shape draw]
+      (with-redefs [shape draw]
         (->> (all state)
              (should= expected-shapes-before-game-start)))))
 
   (it "draws background and live cells before the game starts"
       (let [state (assoc input-drawing-state :player :playing)
             draw  (stub :draw)]
-        (with-redefs [render-shape draw]
+        (with-redefs [shape draw]
           (->> (all state)
                (should= expected-shapes-after-game-start)))))
   )
