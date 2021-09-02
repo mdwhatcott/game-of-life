@@ -82,23 +82,28 @@
                  :height cell-width})))
     ))
 
-(defn intro-text-shapes [state]
+(defn intro-text [state]
   (if (game/playing? state)
     (let [[[x y]] control-panel-bounds]
-      [{:shape  :rectangle
-        :x      x
-        :y      y
-        :width  window-width
-        :height control-panel-height}])
+      {:shape  :rectangle
+       :x      x
+       :y      y
+       :width  window-width
+       :height control-panel-height})
     (let [[x y] control-panel-center]
-      [{:shape   :text
-        :x-align :center
-        :y-align :center
-        :text    click-here-text
-        :x       x
-        :y       y}])))
+      {:shape   :text
+       :x-align :center
+       :y-align :center
+       :text    click-here-text
+       :x       x
+       :y       y})))
 
-(defn live-cells-shapes [state]
+(defn intro-text-shapes [state]
+  [{:shape :fill :color (:text color)}
+   {:shape :stroke :color (:text color)}
+   (intro-text state)])
+
+(defn live-cells [state]
   (let [{:keys [cell-width live-cells]} (:grid state)]
     (for [[[x y] _upper-right] live-cells]
       {:shape  :rectangle
@@ -107,6 +112,11 @@
        :width  cell-width
        :height cell-width})))
 
+(defn live-cells-shapes [state]
+  (concat [{:shape :fill :color (:cell color)}
+           {:shape :stroke :color (:cell color)}]
+          (live-cells state)))
+
 (def background-shapes
   [{:shape :background
     :color (:background color)}])
@@ -114,14 +124,6 @@
 (defn all [state]
   (render-shapes
     (concat background-shapes
-
             (intro-grid-shapes state)
-
-            [{:shape :fill :color (:text color)}
-             {:shape :stroke :color (:text color)}]
             (intro-text-shapes state)
-
-
-            [{:shape :fill :color (:cell color)}
-             {:shape :stroke :color (:cell color)}]
             (live-cells-shapes state))))
