@@ -4,7 +4,7 @@
     [speclj.core :refer :all]
     [gui.draw :refer :all]))
 
-(describe "Drawing Shapes"
+(describe "Rendering Shapes"
   (with-stubs)
 
   (it "renders fill color"
@@ -25,7 +25,7 @@
 
         (should-have-invoked :stroke {:with [42] :times 1}))))
 
-  (it "draws a rectangle"
+  (it "renders a rectangle"
     (let [rectangle {:shape  :rectangle
                      :x      1
                      :y      2
@@ -37,7 +37,7 @@
 
         (should-have-invoked :rect {:with [1 2 3 4] :times 1}))))
 
-  (it "draws text"
+  (it "renders text"
     (let [shape {:shape   :text
                  :x-align :center
                  :y-align :center
@@ -52,7 +52,7 @@
         (should-have-invoked :text-align {:with [:center :center] :times 1})
         (should-have-invoked :text {:with ["message" 1 2] :times 1}))))
 
-  (it "draws a background"
+  (it "renders a background"
     (let [shape      {:shape :background
                       :color 42}
           background (stub :background)]
