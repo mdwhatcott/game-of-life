@@ -3,7 +3,7 @@
     [quil.core :as q]
     [quil.middleware :as m]
     [gui.controller :as controller]
-    [gui.draw :as draw]
+    [gui.shapes :as shapes]
     [gui.frame-count :as frame-count]
     [gui.game :as game]
     [gui.gosper :as gosper]
@@ -14,8 +14,8 @@
   (-> {}
       mouse/setup
       frame-count/setup
-      (controller/setup draw/control-panel-bounds)
-      (grid/setup draw/grid-bounds draw/cells-per-row draw/width-of-each-cell)
+      (controller/setup shapes/control-panel-bounds)
+      (grid/setup shapes/grid-bounds shapes/cells-per-row shapes/width-of-each-cell)
       gosper/setup))
 
 (defn update-root [state]
@@ -32,9 +32,9 @@
   (q/defsketch
     game-of-life
     :title "John Conway's Game of Life"
-    :size [draw/window-width draw/window-height]
+    :size [shapes/window-width shapes/window-height]
     :setup #'setup-root
     :update #'update-root
-    :draw #'draw/all
+    :draw #'shapes/all
     :features [:keep-on-top]
     :middleware [m/fun-mode]))

@@ -1,4 +1,4 @@
-(ns gui.draw
+(ns gui.shapes
   (:require
     [gui.render :as render]
     [gui.bounds :as bounds]

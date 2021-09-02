@@ -1,8 +1,8 @@
-(ns gui.draw-spec
+(ns gui.shapes-spec
   (:require
     [quil.core :as q]
     [speclj.core :refer :all]
-    [gui.draw :refer :all]
+    [gui.shapes :refer :all]
     [gui.render :refer :all]))
 
 
