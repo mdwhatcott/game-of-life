@@ -1,5 +1,6 @@
 (ns gui.grid
-  (:require [gui.bounds :as bounds]))
+  (:require
+    [gui.bounds :as bounds]))
 
 (defn game-cell->grid-cell [game-cell grid]
   (let [grid-upper-left-x  (get-in grid [:bounds 0 0])

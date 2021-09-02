@@ -1,5 +1,6 @@
 (ns gui.gosper
-  (:require [gui.grid :as grid]))
+  (:require
+    [gui.grid :as grid]))
 
 ; https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#/media/File:Game_of_life_glider_gun.svg
 (def gospers-glider-gun
@@ -53,4 +54,3 @@
     (assoc-in state [:grid :live-cells]
               (set (map #(grid/game-cell->grid-cell % grid)
                         gospers-glider-gun)))))
-

@@ -1,7 +1,8 @@
 (ns life.rules-spec
-  (:require [speclj.core :refer :all]
-            [life.rules :refer :all]
-            [clojure.set :as set]))
+  (:require
+    [speclj.core :refer :all]
+    [life.rules :refer :all]
+    [clojure.set :as set]))
 
 (def home [0 0])
 (def neighbors8 (neighbors-of home))
