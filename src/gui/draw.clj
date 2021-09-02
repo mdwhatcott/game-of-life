@@ -31,21 +31,24 @@
 (def color
   {:background 240
    :grid-lines 128
-   :text       0
+   :text       50
    :cell       50})
 
 (def click-here-text
   "Click a few squares, then click down here to begin!")
 
+(defn render-fill [s]
+  (q/fill (:color s)))
+
+(defn render-stroke [s]
+  (q/stroke (:color s)))
+
 (defn render-rectangle [shape]
-  (let [{:keys [fill stroke x y width height]} shape]
-    (q/fill fill)
-    (q/stroke stroke)
+  (let [{:keys [x y width height]} shape]
     (q/rect x y width height)))
 
 (defn render-text [shape]
-  (let [{:keys [fill x-align y-align text x y]} shape]
-    (q/fill fill)
+  (let [{:keys [x-align y-align text x y]} shape]
     (q/text-align x-align y-align)
     (q/text text x y)))
 
@@ -54,6 +57,8 @@
 
 (defn render-shape [s]
   (case (:shape s)
+    :fill (render-fill s)
+    :stroke (render-stroke s)
     :background (render-background s)
     :rectangle (render-rectangle s)
     :text (render-text s)))
@@ -64,29 +69,29 @@
   shapes)
 
 (defn intro-grid-shapes [state]
-  (let [{:keys [cell-width intro-grid]} (:grid state)]
-    (for [[x y] (if (game/playing? state) [] intro-grid)]
-      {:shape  :rectangle
-       :fill   (:background color)
-       :stroke (:grid-lines color)
-       :x      x
-       :y      y
-       :width  cell-width
-       :height cell-width})))
+  (if (game/playing? state)
+    []
+    (concat [{:shape :fill :color (:background color)}
+             {:shape :stroke :color (:grid-lines color)}]
+            (let [{:keys [cell-width intro-grid]} (:grid state)]
+              (for [[x y] (if (game/playing? state) [] intro-grid)]
+                {:shape  :rectangle
+                 :x      x
+                 :y      y
+                 :width  cell-width
+                 :height cell-width})))
+    ))
 
 (defn intro-text-shapes [state]
   (if (game/playing? state)
     (let [[[x y]] control-panel-bounds]
       [{:shape  :rectangle
-        :fill   (:cell color)
-        :stroke (:cell color)
         :x      x
         :y      y
         :width  window-width
         :height control-panel-height}])
     (let [[x y] control-panel-center]
       [{:shape   :text
-        :fill    (:text color)
         :x-align :center
         :y-align :center
         :text    click-here-text
@@ -97,8 +102,6 @@
   (let [{:keys [cell-width live-cells]} (:grid state)]
     (for [[[x y] _upper-right] live-cells]
       {:shape  :rectangle
-       :fill   (:cell color)
-       :stroke (:cell color)
        :x      x
        :y      y
        :width  cell-width
@@ -111,6 +114,14 @@
 (defn all [state]
   (render-shapes
     (concat background-shapes
+
             (intro-grid-shapes state)
+
+            [{:shape :fill :color (:text color)}
+             {:shape :stroke :color (:text color)}]
             (intro-text-shapes state)
+
+
+            [{:shape :fill :color (:cell color)}
+             {:shape :stroke :color (:cell color)}]
             (live-cells-shapes state))))
