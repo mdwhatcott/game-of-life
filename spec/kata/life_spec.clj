@@ -26,12 +26,12 @@
       (let [grid (-> (take-neighbors n) (conj home))]
         (should= home (update-cell home grid)))))
 
-  (it "revive inactive cells with exactly 3 active neighbors"
+  (it "revives inactive cells with exactly 3 active neighbors"
     (let [grid (take-neighbors 3)]
       (should= home (update-cell home grid))))
 
   (for [n [0 1 2 #_3 4 5 6 7 8]]
-    (it (format "ignore inactive cells with %d active neighbors" n)
+    (it (format "ignores inactive cells with %d active neighbors" n)
       (let [grid (take-neighbors n)]
         (should= nil (update-cell home grid)))))
 
