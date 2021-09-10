@@ -1,9 +1,8 @@
 (ns gui.shapes-spec
   (:require
-    [quil.core :as q]
     [speclj.core :refer :all]
-    [gui.shapes :refer :all]
-    [gui.render :refer :all]))
+    [gui.render :refer :all]
+    [gui.shapes :refer :all]))
 
 
 (def input-drawing-state

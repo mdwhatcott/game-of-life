@@ -1,8 +1,8 @@
 (ns gui.controller-spec
   (:require
     [speclj.core :refer :all]
-    [gui.controller :refer :all]
-    [gui.bounds :as bounds]))
+    [gui.bounds :as bounds]
+    [gui.controller :refer :all]))
 
 (defn pointing-at [x y]
   {:clicked? false :x x :y y})

@@ -1,7 +1,7 @@
 (ns gui.render-spec
   (:require
-    [quil.core :as q]
     [speclj.core :refer :all]
+    [quil.core :as q]
     [gui.render :refer :all]))
 
 (describe "Rendering Shapes"

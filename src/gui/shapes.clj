@@ -1,8 +1,8 @@
 (ns gui.shapes
   (:require
-    [gui.render :as render]
     [gui.bounds :as bounds]
-    [gui.game :as game]))
+    [gui.game :as game]
+    [gui.render :as render]))
 
 (def window-width 500)
 (def window-height 600)

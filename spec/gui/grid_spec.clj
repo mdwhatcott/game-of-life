@@ -1,9 +1,9 @@
 (ns gui.grid-spec
   (:require
     [speclj.core :refer :all]
-    [gui.grid :refer :all]
+    [gui.bounds :as bounds]
     [gui.controller-spec :refer :all]
-    [gui.bounds :as bounds]))
+    [gui.grid :refer :all]))
 
 (def grid-bounds (bounds/bounding-cube [50 50] 100))
 

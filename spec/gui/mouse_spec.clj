@@ -1,7 +1,7 @@
 (ns gui.mouse-spec
   (:require
-    [quil.core :as q]
     [speclj.core :refer :all]
+    [quil.core :as q]
     [gui.mouse :refer :all]))
 
 (describe "Mouse Input"

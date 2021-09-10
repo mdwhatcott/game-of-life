@@ -1,10 +1,10 @@
 (ns gui.game_spec
   (:require
     [speclj.core :refer :all]
-    [gui.game :refer :all]
     [gui.bounds :as bounds]
-    [gui.grid :as gui-grid]
-    [gui.frame-count :as frames]))
+    [gui.frame-count :as frames]
+    [gui.game :refer :all]
+    [gui.grid :as gui-grid]))
 
 (defn update-all [state]
   (->> state

@@ -3,19 +3,21 @@
     [quil.core :as q]
     [quil.middleware :as m]
     [gui.controller :as controller]
-    [gui.shapes :as shapes]
     [gui.frame-count :as frame-count]
     [gui.game :as game]
     [gui.gosper :as gosper]
     [gui.grid :as grid]
-    [gui.mouse :as mouse]))
+    [gui.mouse :as mouse]
+    [gui.shapes :as shapes]))
 
 (defn setup-root []
   (-> {}
       mouse/setup
       frame-count/setup
       (controller/setup shapes/control-panel-bounds)
-      (grid/setup shapes/grid-bounds shapes/cells-per-row shapes/width-of-each-cell)
+      (grid/setup shapes/grid-bounds
+                  shapes/cells-per-row
+                  shapes/width-of-each-cell)
       gosper/setup))
 
 (defn update-root [state]
