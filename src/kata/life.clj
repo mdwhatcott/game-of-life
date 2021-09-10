@@ -1,5 +1,24 @@
 (ns kata.life)
 
+(defn neighbors-of [[x y]]
+  (for [Y (range (dec y) (+ 2 y))
+        X (range (dec x) (+ 2 x))
+        :when (not= [x y] [X Y])] [X Y]))
+
+(defn count-active-neighbors [cell grid]
+  (->> cell neighbors-of set (filter grid) count))
+
+(defn update-cell [cell grid]
+  (let [n (count-active-neighbors cell grid)]
+    (cond (= n 3) cell
+          (not= n 2) nil
+          (grid cell) cell)))
+
+(defn evolve [grid]
+  (->> (mapcat neighbors-of grid)
+       (map #(update-cell % grid))
+       (remove nil?) set))
+
 ; The Game of Life, devised by John Conway, is a zero-player
 ; game, meaning that its evolution is determined by its
 ; initial state, requiring no further input. One interacts

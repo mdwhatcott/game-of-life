@@ -1,7 +1,7 @@
 (ns gui.game
   (:require
     [gui.grid :as gui-grid]
-    [life.rules :as rules]))
+    [kata.life :as rules]))
 
 (defn playing? [state]
   (= :playing (:player state)))
