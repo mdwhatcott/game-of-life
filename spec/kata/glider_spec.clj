@@ -1,7 +1,7 @@
-(ns life.glider-spec
+(ns kata.glider-spec
   (:require
     [speclj.core :refer :all]
-    [life.rules :refer :all]))
+    [kata.life :refer :all]))
 
 (def glider-test
   ["glider gun"
