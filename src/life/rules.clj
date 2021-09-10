@@ -17,10 +17,7 @@
           (not= 2 n) nil
           (alive cell) cell)))
 
-(defn cells-in-play [grid]
-  (set/union grid (set (mapcat neighbors-of grid))))
-
 (defn evolve [grid]
-  (let [cells   (cells-in-play grid)
-        updates (map #(update-cell % grid) cells)]
+  (let [neighbors (mapcat neighbors-of grid)
+        updates   (map #(update-cell % grid) neighbors)]
     (set (remove nil? updates))))

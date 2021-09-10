@@ -1,8 +1,7 @@
 (ns life.rules-spec
   (:require
     [speclj.core :refer :all]
-    [life.rules :refer :all]
-    [clojure.set :as set]))
+    [life.rules :refer :all]))
 
 (def home [0 0])
 (def neighbors8 (neighbors-of home))
@@ -41,14 +40,6 @@
       (let [alive   (set (take n neighbors8))
             ignored (update-cell home alive)]
         (should= nil ignored))))
-
-  (it "sees all cells to check"
-    (let [live  #{[0 0]
-                  [1 1]}
-          cells (cells-in-play live)]
-      (should= cells (set/union
-                       (set (block9 0 0))
-                       (set (block9 1 1))))))
 
   (it "evolves from an initial state"
     (let [oscillator [#{[1 1] [1 2] [1 3]}
