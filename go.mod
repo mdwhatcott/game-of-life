@@ -1,4 +1,4 @@
-module github.com/mdwhatcott/golife
+module github.com/mdwhatcott/game-of-life
 
 go 1.13
 

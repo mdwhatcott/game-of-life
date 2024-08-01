@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/mdwhatcott/golife/life"
+	"github.com/mdwhatcott/game-of-life/life"
 )
 
 type controller struct {

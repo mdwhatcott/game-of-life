@@ -1,6 +1,6 @@
 package ui
 
-import "github.com/mdwhatcott/golife/life"
+import "github.com/mdwhatcott/game-of-life/life"
 
 type Config struct {
 	Grid       *life.Grid

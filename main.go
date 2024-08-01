@@ -5,8 +5,8 @@ package main
 import (
 	"flag"
 
-	"github.com/mdwhatcott/golife/life"
-	"github.com/mdwhatcott/golife/ui"
+	"github.com/mdwhatcott/game-of-life/life"
+	"github.com/mdwhatcott/game-of-life/ui"
 )
 
 func main() {
